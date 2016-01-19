@@ -1,0 +1,47 @@
+
+texturepack.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background
+  rotate: false
+  xy: 2, 86
+  size: 1280, 720
+  orig: 1280, 720
+  offset: 0, 0
+  index: -1
+ceiling
+  rotate: false
+  xy: 2, 66
+  size: 1280, 16
+  orig: 1280, 16
+  offset: 0, 0
+  index: -1
+wall
+  rotate: false
+  xy: 1286, 86
+  size: 16, 720
+  orig: 16, 720
+  offset: 0, 0
+  index: -1
+vausA
+  rotate: false
+  xy: 2, 30
+  size: 128, 32
+  orig: 128, 32
+  offset: 0, 0
+  index: -1
+brickA
+  rotate: false
+  xy: 1306, 774
+  size: 64, 32
+  orig: 64, 32
+  offset: 0, 0
+  index: -1
+ballA2
+  rotate: false
+  xy: 2, 2
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1

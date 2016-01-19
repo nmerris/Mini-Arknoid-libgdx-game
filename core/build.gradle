@@ -1,0 +1,15 @@
+apply plugin: "java"
+
+sourceCompatibility = 1.8
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+sourceSets.main.java.srcDirs = [ "src/" ]
+
+// I added this dependencies block because the html program would not find com.google.gson package needed in LevelLoader.java..
+dependencies {
+    compile fileTree(dir: 'build/libs', include: '*.jar')
+}
+
+eclipse.project {
+    name = appName + "-core"
+}

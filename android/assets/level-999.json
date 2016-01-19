@@ -1,0 +1,41 @@
+{
+	"levelNumber": 999,
+	"levelBackgroundMusic": "BGMUSICFILENAME.wav",
+	"ballTexture": "ballA2.png",
+	"vausTexture": "vausA.png",
+	"leftWallTexture": "wall.png",
+	"rightWallTexture": "wall.png",
+	"ceilingTexture": "ceiling.png",
+	"bricks":
+	{
+		"items":
+		[
+			{"positionX":1.0, "positionY":5.5, "bonusItem":"none", "toughness":1, "isIndestructible":false, "textureFile":"brickA.png", "pointValue":10},
+			{"positionX":2.0, "positionY":5.5, "bonusItem":"laser", "toughness":2, "isIndestructible":false, "textureFile":"brickB.png", "pointValue":20},
+			{"positionX":3.0, "positionY":5.5, "bonusItem":"bomb", "toughness":2, "isIndestructible":false, "textureFile":"brickC.png", "pointValue":30},
+			{"positionX":4.0, "positionY":5.5, "bonusItem":"extralife", "toughness":1, "isIndestructible":false, "textureFile":"brickA.png", "pointValue":10},
+			{"positionX":5.0, "positionY":5.5, "bonusItem":"none", "toughness":1, "isIndestructible":false, "textureFile":"brickB.png", "pointValue":20},
+			{"positionX":6.0, "positionY":5.5, "bonusItem":"laser", "toughness":2, "isIndestructible":false, "textureFile":"brickC.png", "pointValue":30},
+			{"positionX":7.0, "positionY":5.5, "bonusItem":"bomb", "toughness":2, "isIndestructible":false, "textureFile":"brickA.png", "pointValue":10},
+			{"positionX":8.0, "positionY":5.5, "bonusItem":"extralife", "toughness":1, "isIndestructible":false, "textureFile":"brickB.png", "pointValue":20},
+			{"positionX":9.0, "positionY":5.5, "bonusItem":"none", "toughness":1, "isIndestructible":false, "textureFile":"brickC.png", "pointValue":30},
+			{"positionX":10.0, "positionY":5.5, "bonusItem":"laser", "toughness":2, "isIndestructible":false, "textureFile":"brickA.png", "pointValue":10},
+			{"positionX":11.0, "positionY":5.5, "bonusItem":"bomb", "toughness":2, "isIndestructible":false, "textureFile":"brickB.png", "pointValue":20},
+			{"positionX":12.0, "positionY":5.5, "bonusItem":"extralife", "toughness":1, "isIndestructible":false, "textureFile":"brickC.png", "pointValue":30},
+		
+			{"positionX":1.0, "positionY":6.5, "bonusItem":"none", "toughness":5, "isIndestructible":false, "textureFile":"brickA.png", "pointValue":10},
+			{"positionX":2.0, "positionY":6.5, "bonusItem":"laser", "toughness":5, "isIndestructible":false, "textureFile":"brickB.png", "pointValue":20},
+			{"positionX":3.0, "positionY":6.5, "bonusItem":"bomb", "toughness":5, "isIndestructible":false, "textureFile":"brickC.png", "pointValue":30},
+			{"positionX":4.0, "positionY":6.5, "bonusItem":"extralife", "toughness":5, "isIndestructible":false, "textureFile":"brickA.png", "pointValue":10},
+			{"positionX":5.0, "positionY":6.5, "bonusItem":"none", "toughness":5, "isIndestructible":false, "textureFile":"brickB.png", "pointValue":20},
+			{"positionX":6.0, "positionY":6.5, "bonusItem":"laser", "toughness":5, "isIndestructible":false, "textureFile":"brickC.png", "pointValue":30},
+			{"positionX":7.0, "positionY":6.5, "bonusItem":"bomb", "toughness":5, "isIndestructible":false, "textureFile":"brickA.png", "pointValue":10},
+			{"positionX":8.0, "positionY":6.5, "bonusItem":"extralife", "toughness":5, "isIndestructible":false, "textureFile":"brickB.png", "pointValue":20},
+			{"positionX":9.0, "positionY":6.5, "bonusItem":"none", "toughness":5, "isIndestructible":false, "textureFile":"brickC.png", "pointValue":30},
+			{"positionX":10.0, "positionY":6.5, "bonusItem":"laser", "toughness":5, "isIndestructible":false, "textureFile":"brickA.png", "pointValue":10},
+			{"positionX":11.0, "positionY":6.5, "bonusItem":"bomb", "toughness":5, "isIndestructible":false, "textureFile":"brickB.png", "pointValue":20},
+			{"positionX":12.0, "positionY":6.5, "bonusItem":"extralife", "toughness":5, "isIndestructible":false, "textureFile":"brickC.png", "pointValue":30}
+		],
+		"size": 24, "ordered": true
+	}
+}
