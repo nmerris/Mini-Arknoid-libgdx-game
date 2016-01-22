@@ -5,7 +5,7 @@ package com.nate.game;
 
 import static com.nate.game.Arknoid1.SCENE_HEIGHT;
 import static com.nate.game.Arknoid1.SCENE_WIDTH;
-import static com.nate.game.Arknoid1.WORLD_TO_SCREEN;
+import static com.nate.game.Arknoid1.SCREEN_TO_WORLD;
 import static com.nate.game.Arknoid1.logger;
 
 import com.badlogic.gdx.utils.Array;

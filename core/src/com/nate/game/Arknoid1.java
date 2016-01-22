@@ -29,11 +29,17 @@ import com.nate.game.DebugGraphics;
 
 public class Arknoid1 implements ApplicationListener {
 	
-	public static final float WORLD_TO_SCREEN = 1.0f / 100.0f; // box2d does not work well with large numbers due to floating point arithmetic limitations
-	public static final float SCREEN_TO_WORLD = 1.0f / WORLD_TO_SCREEN;
-	public static final float SCENE_WIDTH = 12.80f;
-	public static final float SCENE_HEIGHT = 7.20f;
-	public static final float VAUS_ELEVATION = 0.60f; // this should be moved to Vaus.java
+	// this game uses 2 coordinate systems: one for the box2d physics engine, on for screen pixels
+	// the coords used with SCENE_WITDH and SCENE_HEIGHT are for use with the box2d physics engine
+	// box2d hits a floating point arithmetical limit if you use 'large' numbers.. large in this case would be 1280 or 720.. basically need to keep things really small
+	// other parts of the game need to use actual screen pixel coords
+	// use SCREEN_TO_WORLD and WORLD_TO_SCREEN to convert between the two as necessary
+	public static final float SCENE_WIDTH = 12.80f; // box2d world width
+	public static final float SCENE_HEIGHT = 7.20f; // box2d world height
+	public static final float SCREEN_TO_WORLD = 1.0f / 100.0f; // ratio is 1:100
+	public static final float WORLD_TO_SCREEN = 1.0f / SCREEN_TO_WORLD; // ratio is 100:1
+	public static final int SCREEN_WIDTH = (int) (SCENE_WIDTH * WORLD_TO_SCREEN); // screen width (always will be 1280 pixels wide) differing screen resolutions are handled elsewhere
+	public static final int SCREEN_HEIGHT = (int) (SCENE_HEIGHT * WORLD_TO_SCREEN); // screen width (always will be 720 pixels high)
 	
 	static ApplicationType appType; // need to know if program is running on Android or other b/c Android needs clickable buttons on screen, but everything else uses keyboard and mouse for player control
 	
@@ -92,9 +98,9 @@ public class Arknoid1 implements ApplicationListener {
 		camera = new OrthographicCamera();
 		OSDcamera = new OrthographicCamera();
 		viewport = new StretchViewport(SCENE_WIDTH, SCENE_HEIGHT, camera); 
-		OSDviewport = new StretchViewport(SCENE_WIDTH * SCREEN_TO_WORLD, SCENE_HEIGHT * SCREEN_TO_WORLD, OSDcamera);
+		OSDviewport = new StretchViewport(SCENE_WIDTH * WORLD_TO_SCREEN, SCENE_HEIGHT * WORLD_TO_SCREEN, OSDcamera);
 		camera.position.set(SCENE_WIDTH * 0.5f,  SCENE_HEIGHT * 0.5f, 0);
-		OSDcamera.position.set(SCENE_WIDTH * SCREEN_TO_WORLD * 0.5f, SCENE_HEIGHT * SCREEN_TO_WORLD * 0.5f, 0);
+		OSDcamera.position.set(SCENE_WIDTH * WORLD_TO_SCREEN * 0.5f, SCENE_HEIGHT * WORLD_TO_SCREEN * 0.5f, 0);
 		
 		
 		// batch and texture stuff..
@@ -141,6 +147,7 @@ public class Arknoid1 implements ApplicationListener {
 		contactProcessor = new ContactProcessor(bricks, sounds); // contactProcessor needs access to the bricks Array and game sounds
 		
 
+		
 		appType = Gdx.app.getType();
 		logger.info("###################### Game is running on: " + appType.toString() + " ######################");
 		

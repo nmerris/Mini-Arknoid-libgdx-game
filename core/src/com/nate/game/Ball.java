@@ -11,8 +11,8 @@ import com.nate.game.ContactProcessor.ContactCategories;
 
 import static com.nate.game.Arknoid1.SCENE_HEIGHT;
 import static com.nate.game.Arknoid1.SCENE_WIDTH;
-import static com.nate.game.Arknoid1.VAUS_ELEVATION;
-import static com.nate.game.Arknoid1.WORLD_TO_SCREEN;
+import static com.nate.game.Vaus.VAUS_ELEVATION;
+import static com.nate.game.Arknoid1.SCREEN_TO_WORLD;
 import static com.nate.game.CreateBody.createBody;
 import static com.nate.game.Walls.box2dWallWidth;
 import static com.nate.game.Arknoid1.batch;
@@ -58,8 +58,10 @@ public class Ball implements GameObject {
 		ballVxAtMinVy = (float)Math.sqrt(ballSpeed * ballSpeed - ballMinVy * ballMinVy);
 		
 		
+	
 		startingVx = 1.85f; // the starting ball velocity vector x component ***MUST NOT BE > ballSpeed***
 		startingVy = -(float)Math.sqrt(ballSpeed * ballSpeed - startingVx * startingVx);
+		
 		logger.info("ballSpeed = " + ballSpeed);
 		logger.info("ballMaxVx = ballMaxVy = " + ballMaxVx);
 		logger.info("startingVx = " + startingVx + " and startingVy = " + startingVy);
@@ -70,13 +72,13 @@ public class Ball implements GameObject {
 	
 		// load the texture..
 		ballTex = new Texture(Gdx.files.internal(textureFileName));
-		box2dBallRadius = ballTex.getWidth() * WORLD_TO_SCREEN * 0.5f;
+		box2dBallRadius = ballTex.getWidth() * SCREEN_TO_WORLD * 0.5f;
 		
 		// using overloaded createBody constructor for circular body creation..
 		ballBody = createBody(BodyType.DynamicBody, 						// body type
 				 false, ContactCategories.BALL, (short)~0x0000,				// is body a sensor?, sensor group bits, mask bits
 				 0, new GameBody<Ball>(this), 								// gravity scale, userData
-				 SCENE_WIDTH * 0.5f, VAUS_ELEVATION * 4.5f, 					// initial x and y positions
+				 SCENE_WIDTH * 0.5f, Vaus.VAUS_ELEVATION * 4.5f, 					// initial x and y positions
 				 1.0f, 1.0f, 0.0f, 											// density, restitution, friction
 				 box2dBallRadius); 											// radius of circular body to be created
 		

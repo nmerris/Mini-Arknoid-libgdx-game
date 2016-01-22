@@ -6,8 +6,8 @@
 package com.nate.game;
 
 import static com.nate.game.Arknoid1.SCENE_WIDTH;
-import static com.nate.game.Arknoid1.VAUS_ELEVATION;
-import static com.nate.game.Arknoid1.WORLD_TO_SCREEN;
+import static com.nate.game.Vaus.VAUS_ELEVATION;
+import static com.nate.game.Arknoid1.SCREEN_TO_WORLD;
 import static com.nate.game.Arknoid1.batch;
 import static com.nate.game.CreateBody.createBody;
 import static com.nate.game.ContactProcessor.ContactCategories;
@@ -80,8 +80,8 @@ public class Projectile implements GameObject {
 		switch(type){
 			case LASER:
 				tex = new Texture(Gdx.files.internal("projectile_laser.png")); // load the texture
-				width = tex.getWidth() * WORLD_TO_SCREEN;
-				height = tex.getHeight() * WORLD_TO_SCREEN;
+				width = tex.getWidth() * SCREEN_TO_WORLD;
+				height = tex.getHeight() * SCREEN_TO_WORLD;
 				power = ProjectileTypes.LASER.power;
 				speed = ProjectileTypes.LASER.speed;
 				shotsRemaining = ProjectileTypes.LASER.numShots;
@@ -89,8 +89,8 @@ public class Projectile implements GameObject {
 				
 			case BOMB:
 				tex = new Texture(Gdx.files.internal("projectile_bomb.png")); // load the texture
-				width = tex.getWidth() * WORLD_TO_SCREEN;
-				height = tex.getHeight() * WORLD_TO_SCREEN;
+				width = tex.getWidth() * SCREEN_TO_WORLD;
+				height = tex.getHeight() * SCREEN_TO_WORLD;
 				power = ProjectileTypes.BOMB.power;
 				speed = ProjectileTypes.BOMB.speed;
 				shotsRemaining = ProjectileTypes.BOMB.numShots;

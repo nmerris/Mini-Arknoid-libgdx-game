@@ -4,7 +4,7 @@
 package com.nate.game;
 
 import static com.nate.game.Arknoid1.SCENE_HEIGHT;
-import static com.nate.game.Arknoid1.WORLD_TO_SCREEN;
+import static com.nate.game.Arknoid1.SCREEN_TO_WORLD;
 import static com.nate.game.CreateBody.createBody;
 import static com.nate.game.BonusItem.ItemTypes;
 import static com.nate.game.Arknoid1.batch;
@@ -50,8 +50,8 @@ public class Brick { // each Brick object represents a single brick and has a Bo
 		this.isAlive = a;
 			
 		this.brickTex = new Texture(Gdx.files.internal(textureFileName)); // load the texture
-		this.width = brickTex.getWidth() * WORLD_TO_SCREEN;
-		this.height = brickTex.getHeight() * WORLD_TO_SCREEN;
+		this.width = brickTex.getWidth() * SCREEN_TO_WORLD;
+		this.height = brickTex.getHeight() * SCREEN_TO_WORLD;
 		
 		this.brickBody = createBody(BodyType.StaticBody,  			// body type
 			   	 false, ContactCategories.BRICK, (short)~0x0000, 	// is body a sensor?, sensor group, sensor mask (collide with everything)

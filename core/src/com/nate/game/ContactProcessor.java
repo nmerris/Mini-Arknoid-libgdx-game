@@ -174,29 +174,29 @@ public class ContactProcessor implements ContactListener{
 		switch(contactPair.getBelligerents()){
 		
 			case BALL_VAUS_FLAT_TOP:
-				logger.info("==========================================================");
-				logger.info("inside beginContact, case BALL_VAUS_FLAT_TOP:");
+				//logger.info("==========================================================");
+				//logger.info("inside beginContact, case BALL_VAUS_FLAT_TOP:");
 				preContactVx = bodyA.getLinearVelocity().x; // store the incoming ball velocities before collision
 				preContactVy = bodyA.getLinearVelocity().y;
 				break;
 		
 			case BALL_BRICK:
-				logger.info("==========================================================");
-				logger.info("inside beginContact, case BALL_BRICK:");
+				//logger.info("==========================================================");
+				//logger.info("inside beginContact, case BALL_BRICK:");
 				preContactVx = bodyA.getLinearVelocity().x; // store the incoming ball velocities before collision
 				preContactVy = bodyA.getLinearVelocity().y;
 				break;
 			
 			case BALL_FLIPPER:
-				logger.info("==========================================================");
-				logger.info("inside beginContact, case BALL_FLIPPER:");
+				//logger.info("==========================================================");
+				//logger.info("inside beginContact, case BALL_FLIPPER:");
 				preContactVx = bodyA.getLinearVelocity().x; // store the incoming ball velocities before collision
 				preContactVy = bodyA.getLinearVelocity().y;
 				break;
 				
 			case BALL_FLOOR:
-				logger.info("==========================================================");
-				logger.info("inside beginContact, case BALL_FLOOR:");
+				//logger.info("==========================================================");
+				//logger.info("inside beginContact, case BALL_FLOOR:");
 				preContactVx = bodyA.getLinearVelocity().x; // store the incoming ball velocities before collision
 				preContactVy = bodyA.getLinearVelocity().y;
 				break;
@@ -244,29 +244,29 @@ public class ContactProcessor implements ContactListener{
 		switch(contactPair.getBelligerents()){
 		
 			case BALL_VAUS_FLAT_TOP:
-				logger.info("==========================================================");
-				logger.info("inside beginContact, case BALL_VAUS_FLAT_TOP:");
+				//logger.info("==========================================================");
+				//logger.info("inside beginContact, case BALL_VAUS_FLAT_TOP:");
 				preContactVx = bodyA.getLinearVelocity().x; // store the incoming ball velocities before collision
 				preContactVy = bodyA.getLinearVelocity().y;
 				break;
 		
 			case BALL_BRICK:
-				logger.info("==========================================================");
-				logger.info("inside beginContact, case BALL_BRICK:");
+				//logger.info("==========================================================");
+				//logger.info("inside beginContact, case BALL_BRICK:");
 				preContactVx = bodyA.getLinearVelocity().x; // store the incoming ball velocities before collision
 				preContactVy = bodyA.getLinearVelocity().y;
 				break;
 			
 			case BALL_FLIPPER:
-				logger.info("==========================================================");
-				logger.info("inside beginContact, case BALL_FLIPPER:");
+				//logger.info("==========================================================");
+				//logger.info("inside beginContact, case BALL_FLIPPER:");
 				preContactVx = bodyA.getLinearVelocity().x; // store the incoming ball velocities before collision
 				preContactVy = bodyA.getLinearVelocity().y;
 				break;
 				
 			case BALL_FLOOR:
-				logger.info("==========================================================");
-				logger.info("inside beginContact, case BALL_FLOOR:");
+				//logger.info("==========================================================");
+				//logger.info("inside beginContact, case BALL_FLOOR:");
 				preContactVx = bodyA.getLinearVelocity().x; // store the incoming ball velocities before collision
 				preContactVy = bodyA.getLinearVelocity().y;
 				break;

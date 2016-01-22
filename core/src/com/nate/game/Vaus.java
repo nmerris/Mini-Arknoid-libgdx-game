@@ -3,6 +3,8 @@
  */
 package com.nate.game;
 
+
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
@@ -18,7 +20,9 @@ import com.badlogic.gdx.Application.ApplicationType;
 
 import static com.nate.game.Arknoid1.SCENE_HEIGHT;
 import static com.nate.game.Arknoid1.SCENE_WIDTH;
-import static com.nate.game.Arknoid1.VAUS_ELEVATION;
+import static com.nate.game.Arknoid1.SCREEN_HEIGHT;
+import static com.nate.game.Arknoid1.SCREEN_WIDTH;
+import static com.nate.game.Arknoid1.SCREEN_TO_WORLD;
 import static com.nate.game.Arknoid1.WORLD_TO_SCREEN;
 import static com.nate.game.Walls.box2dWallWidth;
 import static com.nate.game.Ball.ballBody;
@@ -27,10 +31,10 @@ import static com.nate.game.Arknoid1.logger;
 import static com.nate.game.Arknoid1.box2dWorld;
 import static com.nate.game.Arknoid1.viewport;
 import static com.nate.game.Arknoid1.onScreenDisplay;
-import static com.nate.game.OnScreenDisplay.ANDROID_FIRE_BUTTON_X;
-import static com.nate.game.OnScreenDisplay.ANDROID_FIRE_BUTTON_Y;
-import static com.nate.game.OnScreenDisplay.ANDROID_FLIP_BUTTON_X;
-import static com.nate.game.OnScreenDisplay.ANDROID_FLIP_BUTTON_Y;
+import static com.nate.game.OnScreenDisplay.androidFireButtonX;
+import static com.nate.game.OnScreenDisplay.androidFireButtonY;
+import static com.nate.game.OnScreenDisplay.androidFlipButtonX;
+import static com.nate.game.OnScreenDisplay.androidFlipButtonY;
 import static com.nate.game.OnScreenDisplay.screenButtonWidth;
 
 import static com.badlogic.gdx.Input.Keys; // represents the keyboard keys that user can press
@@ -52,7 +56,8 @@ public class Vaus implements InputProcessor, GameObject {
 	ProjectileTypes projectileType; // lasers and bombs for now, these are what you actually fire at the bricks
 	private String projectileWeaponName;
 	private static final float FLIPPER_GRAVITY = 0.5f; // determines how fast the flippers fall back down after use
-	private static final float MAX_FLIPPER_GRAVITY = 10f;
+	private static final float MAX_FLIPPER_GRAVITY = 10f; // used to control how fast vaus' flippers settle back to resting positions after flipping them
+	public static final float VAUS_ELEVATION = 0.60f; // the distance from the bottom of the screen of vaus (vaus is the paddle thing you control as a player)
 		
 	private boolean pauseBall; // used only in the keyDown method, it's in this class because it involves user input detection
 	
@@ -90,8 +95,8 @@ public class Vaus implements InputProcessor, GameObject {
 		
 		// convert from the texture pixel dimensions to the box2d physics world dimensions..
 		// everything is based on the vaus main body texture size..
-		box2dVausWidth = vausTex.getWidth() * WORLD_TO_SCREEN;
-		box2dVausHeight = vausTex.getHeight() * WORLD_TO_SCREEN;
+		box2dVausWidth = vausTex.getWidth() * SCREEN_TO_WORLD;
+		box2dVausHeight = vausTex.getHeight() * SCREEN_TO_WORLD;
 		box2dFlipperWidth = box2dVausWidth * 0.4f;
 		box2dFlipperHeight = box2dVausHeight * 0.4f;
 		leftMostVausX = box2dVausWidth * 0.5f + box2dFlipperWidth + box2dWallWidth + box2dFlipperHeight * 2f;
@@ -108,28 +113,28 @@ public class Vaus implements InputProcessor, GameObject {
 				 // VAUS: 0000 0000 0000 0001, VAUS mask: 1111 1111 1111 1110, bitwise AND: 0000 0000 0000 0000, so DON'T collide
 				 // a collision WILL  occur when the bitwise AND of category and mask are non-zero
 				 0, new GameBody<Vaus>(this), // gravity scale, userData
-				 SCENE_WIDTH * 0.5f, VAUS_ELEVATION, // initial x and y positions
+				 SCENE_WIDTH * 0.5f, Vaus.VAUS_ELEVATION, // initial x and y positions
 				 100.0f, 0, 1.0f, // density, restitution, friction
 				 box2dVausWidth * 0.5f, box2dVausHeight * 0.5f); // halfWidth, halfHeight
 		
 		leftFlipperBody = createBody(BodyType.DynamicBody,  // body type
 			   	 false, ContactCategories.VAUS, ContactCategories.VAUS.getMask(),  // is body a sensor?, sensor group
 			   	 FLIPPER_GRAVITY, new GameBody<Vaus>(this), // gravity scale, userData
-				 SCENE_WIDTH * 0.25f, VAUS_ELEVATION, // initial x and y positions, not used because the flippers are attached to vaus and move with vaus
+				 SCENE_WIDTH * 0.25f, Vaus.VAUS_ELEVATION, // initial x and y positions, not used because the flippers are attached to vaus and move with vaus
 				 10.0f, 0, 0, // density, restitution, friction
 				 box2dFlipperWidth * 0.5f, box2dFlipperHeight * 0.5f); // halfWidth, halfHeight based on vaus texture dimensions
 	
 		rightFlipperBody = createBody(BodyType.DynamicBody, // body type
 				 false, ContactCategories.VAUS, ContactCategories.VAUS.getMask(), // is body a sensor?, sensor group
 				 FLIPPER_GRAVITY, new GameBody<Vaus>(this), // gravity scale, userData
-				 SCENE_WIDTH * 0.75f, VAUS_ELEVATION, // initial x and y positions
+				 SCENE_WIDTH * 0.75f, Vaus.VAUS_ELEVATION, // initial x and y positions
 				 10.0f, 0, 0, // density, restitution, friction
 				 box2dFlipperWidth * 0.5f, box2dFlipperHeight * 0.5f); // halfWidth, halfHeight based on vaus texture dimensions
 		
 		flatTopBody = createBody(BodyType.KinematicBody, // body type
 				 false, ContactCategories.VAUS, ContactCategories.VAUS.getMask(), // is body a sensor?, sensor group
 				 0, new GameBody<Vaus>(this), // gravity scale, userData
-				 SCENE_WIDTH * 0.5f, VAUS_ELEVATION + box2dVausHeight * 0.5f, // initial x and y positions
+				 SCENE_WIDTH * 0.5f, Vaus.VAUS_ELEVATION + box2dVausHeight * 0.5f, // initial x and y positions
 				 100.0f, 0, 1.0f, // density, restitution, friction
 				 (box2dVausWidth + box2dFlipperWidth + box2dFlipperWidth) * 0.5f, 0); // halfWidth, halfHeight (going for a horizontal line here)
 	
@@ -328,99 +333,113 @@ public class Vaus implements InputProcessor, GameObject {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) { // desktop: left mouse button, android: tap screen (both work as-is)
 		
 		// translate touched/clicked coords to box2dWorld coords and store in point(x,y,z)
-		Vector3 point = new Vector3(); // used to temporarily store the translated touched/clicked coords to world coords
+		Vector3 point = new Vector3(); // used to temporarily store the translated touched/clicked coords to world coords, needs to be 3D vector for unproject to work next line
 		viewport.getCamera().unproject(point.set(screenX, screenY, 0)); // translate touched/clicked coords to box2dWorld coords and store in point(x,y,z)
+		boolean androidButtonTapped = false;
 		
-		if(button == Input.Buttons.LEFT){ // left mouse button
-			box2dXlastTouched = point.x;
+		if(button == Input.Buttons.LEFT){ // left mouse button or screen tap on Android
 			
-			if(box2dXlastTouched < vausBody.getPosition().x){ // user touched/clicked left of current vaus position
-				leftFlipperBody.setGravityScale(MAX_FLIPPER_GRAVITY); // this is here to prevent the flippers from flopping around when you are just moving vaus
-				rightFlipperBody.setGravityScale(MAX_FLIPPER_GRAVITY);
-				
-				vausBody.setLinearVelocity(-vausSpeed, 0); // move vaus left instantly
-				flatTopBody.setLinearVelocity(-vausSpeed, 0); // move flatTopBody left instantly
-				
-				movingLeft = true;
-				movingRight = false;
-			}
-			else if(box2dXlastTouched > vausBody.getPosition().x){ // user touched/clicked right of current vaus position
-				leftFlipperBody.setGravityScale(MAX_FLIPPER_GRAVITY);
-				rightFlipperBody.setGravityScale(MAX_FLIPPER_GRAVITY);
-				
-				vausBody.setLinearVelocity(vausSpeed, 0); // move vaus right instantly
-				flatTopBody.setLinearVelocity(vausSpeed, 0); // move flatTopBody left instantly
-				
-				movingLeft = false;
-				movingRight = true;
-			}
+			logger.info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+			logger.info("inside Vaus.touchDown: screenX, screenY = " + screenX + ", " + screenY);
+			
+			logger.info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+			logger.info("inside Vaus.touchDown: point.x, point.y = " + point.x + ", " + point.y);
 			
 			
 			
 			// check if either the 'fire' or 'flip' buttons were pressed and take appropriate action, only check on Android platforms because everything else has keyboard and mouse..
-/*			if(Arknoid1.appType.equals(ApplicationType.Android)){
-				processAndroidButtonTap(screenX, screenY); // for Android button tap, we use screen coords, not box2d world coords
-			}*/
-		
-			if(!Arknoid1.appType.equals(ApplicationType.Android)){ // TESTING ONLY HERE
-				
-				logger.info("inside Vaus.touchDown, inside Android tap if statement...");
-				logger.info("  and screenX, screenY = " + screenX + ", " + screenY);
-				
-				processAndroidButtonTap(screenX, screenY); // for Android button tap, we use screen coords, not box2d world coords
+			if(Arknoid1.appType.equals(ApplicationType.Android)){
+				androidButtonTapped = processAndroidButtonTap((int) (point.x * WORLD_TO_SCREEN), (int) (point.y * WORLD_TO_SCREEN)); // for Android button tap, use screen coords, not box2d world coords
+				logger.info("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+				logger.info("inside Vaus.touchDown, inside if(android app): point.x, point.y multiplied by 100 = " + (int) (point.x * WORLD_TO_SCREEN) + ", " + (int) (point.y * WORLD_TO_SCREEN));
 			}
 			
-			
-			
-		}
-		else if(button == Input.Buttons.RIGHT){ // whack the ball with the flippers! (right mouse button), does nothing in android
-			
-			leftFlipperBody.setGravityScale(FLIPPER_GRAVITY); // set to "normal" gravity so the applied forces below have an effect
-			rightFlipperBody.setGravityScale(FLIPPER_GRAVITY);
+			if(!androidButtonTapped){ // don't want anything else to happen if player just tapped either button on Android platform
+				box2dXlastTouched = point.x;
+				
+				if(box2dXlastTouched < vausBody.getPosition().x){ // user touched/clicked left of current vaus position
+					leftFlipperBody.setGravityScale(MAX_FLIPPER_GRAVITY); // this is here to prevent the flippers from flopping around when you are just moving vaus
+					rightFlipperBody.setGravityScale(MAX_FLIPPER_GRAVITY);
 					
-			leftFlipperBody.applyForceToCenter(0, 100f, true); // this causes the flipper to swing up
-			rightFlipperBody.applyForceToCenter(0, 100f, true);
-			
-		}
+					vausBody.setLinearVelocity(-vausSpeed, 0); // move vaus left instantly
+					flatTopBody.setLinearVelocity(-vausSpeed, 0); // move flatTopBody left instantly
+					
+					movingLeft = true;
+					movingRight = false;
+				}
+				else if(box2dXlastTouched > vausBody.getPosition().x){ // user touched/clicked right of current vaus position
+					leftFlipperBody.setGravityScale(MAX_FLIPPER_GRAVITY);
+					rightFlipperBody.setGravityScale(MAX_FLIPPER_GRAVITY);
+					
+					vausBody.setLinearVelocity(vausSpeed, 0); // move vaus right instantly
+					flatTopBody.setLinearVelocity(vausSpeed, 0); // move flatTopBody left instantly
+					
+					movingLeft = false;
+					movingRight = true;
+				}
+			} // end if(androidButtonTapped)
+		} // end input button LEFT
+		else if(button == Input.Buttons.RIGHT){ // whack the ball with the flippers! (right mouse button), does nothing in android
+			actuateFlippers();
+		} // end input button RIGHT
 		return false;
 	}
 	
-	// TODO: the coords are not right, need to figure it out...........
-	private void processAndroidButtonTap(int screenX, int screenY) {
-		int buttonPadding = 10; // it always annoys me when you have to super-precisely tap something on a touchscreen, so I'm giving it some padding pixels so you just have to be close enough
-		if(screenX > ANDROID_FIRE_BUTTON_X - buttonPadding && screenX < ANDROID_FIRE_BUTTON_X + screenButtonWidth + buttonPadding){ // player tapped screen within fire button X range
-			if(screenY > SCENE_HEIGHT - ANDROID_FIRE_BUTTON_Y - screenButtonWidth - buttonPadding && screenY < SCENE_HEIGHT - ANDROID_FIRE_BUTTON_Y - buttonPadding){ // and player tapped screen with fire button Y range
+	
+	private void actuateFlippers(){
+		leftFlipperBody.setGravityScale(FLIPPER_GRAVITY); // set to "normal" gravity so the applied forces below have an effect
+		rightFlipperBody.setGravityScale(FLIPPER_GRAVITY);
+				
+		leftFlipperBody.applyForceToCenter(0, 100f, true); // this causes the flipper to swing up
+		rightFlipperBody.applyForceToCenter(0, 100f, true);
+	}
+	
+	
+	
+	/**
+	 * This method determines if either button was tapped, only used on Android platforms because otherwise you have a mouse to use.
+	 * It also fires your weapon if you have one, or flips your flippers, depending on which button was just tapped.
+	 * X and Y coords must be already translated to Arknoid1.SCREEN_WIDTH and Arknoid1.SCREEN_HEIGHT dimensions (so be sure to use camera.unproject before passing in coords to this method).
+	 * @param x X coordinate of user's tap on screen, in translated screen coords
+	 * @param y Y coordinate of user's tap on screen, in translated screen coords
+	 * @return true if either button was just tapped
+	 */
+	private boolean processAndroidButtonTap(int x, int y) {
+		int buttonPadding = 5; // it always annoys me when you have to super-precisely tap something on a touchscreen, so I'm giving it some padding pixels so you just have to be close enough
+		boolean androidButtonTapped = false;
+		
+		if(x > androidFireButtonX - buttonPadding && x < androidFireButtonX + screenButtonWidth + buttonPadding){ // player tapped screen within fire button X range
+			if(y > SCREEN_HEIGHT - androidFireButtonY - screenButtonWidth - buttonPadding && y < SCREEN_HEIGHT - androidFireButtonY - buttonPadding){ // and player tapped screen with fire button Y range
+				androidButtonTapped = true;
 				// player just tapped the fire button in Android platform..
 				switch(projectileType){ // fire projectile weapon if player has one
 					case LASER:
-						logger.info("  firing laser...");
+						logger.info("  inside Vaus.processAndroidButtonTap, firing laser...");
 						laser.fire(vausBody.getPosition().x, vausBody.getPosition().y + box2dVausHeight);
 						break;
 						
 					case BOMB:
-						logger.info("  firing bomb...");
+						logger.info("  inside Vaus.processAndroidButtonTap, firing bomb...");
 						bomb.fire(vausBody.getPosition().x, vausBody.getPosition().y + box2dVausHeight);
 						break;
 				
 					case NO_PROJECTILE:
+						// testing only..
+						logger.info("  inside Vaus.processAndroidButtonTap case NO_PROJECTILE...");
 						break;
 						
 					default:
 						break;
-				}
+				} // end switch
 			}
 		} // end Android fire button detection
-		
-		else if(screenX > ANDROID_FLIP_BUTTON_X - buttonPadding && screenX < ANDROID_FLIP_BUTTON_X + screenButtonWidth + buttonPadding){ // player tapped screen within fire button X range
-			if(screenY > SCENE_HEIGHT - ANDROID_FLIP_BUTTON_Y - screenButtonWidth - buttonPadding && screenY < SCENE_HEIGHT - ANDROID_FLIP_BUTTON_Y - buttonPadding){ // and player tapped screen with fire button Y range
-		
-				leftFlipperBody.setGravityScale(FLIPPER_GRAVITY); // set to "normal" gravity so the applied forces below have an effect
-				rightFlipperBody.setGravityScale(FLIPPER_GRAVITY);
-						
-				leftFlipperBody.applyForceToCenter(0, 100f, true); // this causes the flipper to swing up
-				rightFlipperBody.applyForceToCenter(0, 100f, true);
+		else if(x > androidFlipButtonX - buttonPadding && x < androidFlipButtonX + screenButtonWidth + buttonPadding){ // player tapped screen within fire button X range
+			if(y > SCREEN_HEIGHT - androidFlipButtonY - screenButtonWidth - buttonPadding && y < SCREEN_HEIGHT - androidFlipButtonY - buttonPadding){ // and player tapped screen with fire button Y range
+				androidButtonTapped = true;
+				actuateFlippers();
 			}
 		} // end Android flip button detection
+		return androidButtonTapped;
 	} // end processAndroidButtonTap
 
 	

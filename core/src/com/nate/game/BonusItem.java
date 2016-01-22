@@ -3,7 +3,7 @@
  */
 package com.nate.game;
 
-import static com.nate.game.Arknoid1.WORLD_TO_SCREEN;
+import static com.nate.game.Arknoid1.SCREEN_TO_WORLD;
 import static com.nate.game.CreateBody.createBody;
 import static com.nate.game.Arknoid1.batch;
 import static com.nate.game.Arknoid1.logger;
@@ -48,18 +48,18 @@ public class BonusItem implements GameObject{
 		switch(bonusItem){
 			case LASER:
 				this.tex = new Texture(Gdx.files.internal("item_laser.png")); // load the texture
-				this.width = tex.getWidth() * WORLD_TO_SCREEN;
-				this.height = tex.getHeight() * WORLD_TO_SCREEN;
+				this.width = tex.getWidth() * SCREEN_TO_WORLD;
+				this.height = tex.getHeight() * SCREEN_TO_WORLD;
 				break;
 			case BOMB:
 				this.tex = new Texture(Gdx.files.internal("item_bomb.png")); // load the texture
-				this.width = tex.getWidth() * WORLD_TO_SCREEN;
-				this.height = tex.getHeight() * WORLD_TO_SCREEN;
+				this.width = tex.getWidth() * SCREEN_TO_WORLD;
+				this.height = tex.getHeight() * SCREEN_TO_WORLD;
 				break;
 			case EXTRA_LIFE:
 				this.tex = new Texture(Gdx.files.internal("item_extralife.png")); // load the texture
-				this.width = tex.getWidth() * WORLD_TO_SCREEN;
-				this.height = tex.getHeight() * WORLD_TO_SCREEN;
+				this.width = tex.getWidth() * SCREEN_TO_WORLD;
+				this.height = tex.getHeight() * SCREEN_TO_WORLD;
 				break;
 			case NO_ITEM:
 				break;

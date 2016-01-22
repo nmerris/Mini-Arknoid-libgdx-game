@@ -6,7 +6,7 @@ package com.nate.game;
 
 import static com.nate.game.Arknoid1.SCENE_HEIGHT;
 import static com.nate.game.Arknoid1.SCENE_WIDTH;
-import static com.nate.game.Arknoid1.WORLD_TO_SCREEN;
+import static com.nate.game.Arknoid1.SCREEN_TO_WORLD;
 import static com.nate.game.CreateBody.createBody;
 import static com.nate.game.Arknoid1.batch;
 import static com.nate.game.Arknoid1.logger;
@@ -45,10 +45,10 @@ public class Walls implements GameObject{
 		wallTex = new Texture(Gdx.files.internal(leftWallTextureFileName)); // same texture for both walls for now
 		
 		// the width of the textures scaled down to use with box2d..
-		box2dCeilingWidth = ceilingTex.getWidth() * WORLD_TO_SCREEN; 	// ceiling and floor are the same dimensions
-		box2dCeilingHeight = ceilingTex.getHeight() * WORLD_TO_SCREEN;
-		box2dWallWidth = wallTex.getWidth() * WORLD_TO_SCREEN; 			// left and right walls are the same dimensions
-		box2dWallHeight = wallTex.getHeight() * WORLD_TO_SCREEN;
+		box2dCeilingWidth = ceilingTex.getWidth() * SCREEN_TO_WORLD; 	// ceiling and floor are the same dimensions
+		box2dCeilingHeight = ceilingTex.getHeight() * SCREEN_TO_WORLD;
+		box2dWallWidth = wallTex.getWidth() * SCREEN_TO_WORLD; 			// left and right walls are the same dimensions
+		box2dWallHeight = wallTex.getHeight() * SCREEN_TO_WORLD;
 		
 		// create the bodies..
 		leftWallBody = createBody(BodyType.StaticBody,  			// body type
